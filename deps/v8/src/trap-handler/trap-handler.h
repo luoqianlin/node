@@ -15,8 +15,12 @@
 
 namespace v8::internal::trap_handler {
 
+// Android is not supported because its signal and crash reporting behavior
+// requires a separate security review.
+#if V8_OS_ANDROID
+#define V8_TRAP_HANDLER_SUPPORTED false
 // X64 on Linux, Windows, MacOS, FreeBSD.
-#if V8_HOST_ARCH_X64 && V8_TARGET_ARCH_X64 &&                        \
+#elif V8_HOST_ARCH_X64 && V8_TARGET_ARCH_X64 &&                        \
     ((V8_OS_LINUX && !V8_OS_ANDROID) || V8_OS_WIN || V8_OS_DARWIN || \
      V8_OS_FREEBSD)
 #define V8_TRAP_HANDLER_SUPPORTED true
@@ -53,14 +57,6 @@ namespace v8::internal::trap_handler {
 // Everything else is unsupported.
 #else
 #define V8_TRAP_HANDLER_SUPPORTED false
-#endif
-
-#if V8_OS_ANDROID && V8_TRAP_HANDLER_SUPPORTED
-// It would require some careful security review before the trap handler
-// can be enabled on Android.  Android may do unexpected things with signal
-// handling and crash reporting that could open up security holes in V8's
-// trap handling.
-#error "The V8 trap handler should not be enabled on Android"
 #endif
 
 // Setup for shared library export.
