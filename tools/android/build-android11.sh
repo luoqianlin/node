@@ -64,7 +64,7 @@ cp -a "$BUILD_DIR/stage/usr/local/include" "$DIST_DIR/"
 cp -a "$BUILD_DIR/stage/usr/local/share" "$DIST_DIR/"
 
 node_version="$(sed -n "s/^#define NODE_VERSION \"\(.*\)\"/\1/p" src/node_version.h)"
-git_revision="$(git rev-parse HEAD)"
+git_revision="${GIT_REVISION:-$(git rev-parse HEAD 2>/dev/null || printf 'unknown')}"
 cat > "$DIST_DIR/BUILD-INFO" <<EOF
 node_version=$node_version
 git_revision=$git_revision
