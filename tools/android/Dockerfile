@@ -16,9 +16,7 @@ ENV PATH=${ANDROID_NDK_ROOT}/toolchains/llvm/prebuilt/linux-x86_64/bin:${PATH}
 ENV LANG=C.UTF-8
 ENV LC_ALL=C.UTF-8
 
-RUN export http_proxy="${HTTP_PROXY:-${http_proxy:-}}" \
-    https_proxy="${HTTPS_PROXY:-${https_proxy:-}}" \
-    no_proxy="${NO_PROXY:-${no_proxy:-}}" \
+RUN unset http_proxy https_proxy HTTP_PROXY HTTPS_PROXY no_proxy NO_PROXY \
     && apt-get update \
     && apt-get install --no-install-recommends -y \
        binutils ca-certificates curl file g++-13 gcc-13 git make perl \
