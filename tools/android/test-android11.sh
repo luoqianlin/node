@@ -6,7 +6,8 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 readonly SCRIPT_DIR
 SOURCE_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
 readonly SOURCE_DIR
-SERIAL="${ANDROID_SERIAL:-SS20240910134291}"
+: "${ANDROID_SERIAL:?error: set ANDROID_SERIAL to the target adb serial}"
+SERIAL="$ANDROID_SERIAL"
 DIST_DIR="${DIST_DIR:-$SOURCE_DIR/android-build-arm64-api30}"
 REMOTE_DIR="${REMOTE_DIR:-/data/local/tmp/node-android11-smoke}"
 
