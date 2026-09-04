@@ -1,0 +1,17 @@
+name: Android Docker builder
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-builder:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build the Android builder image
+        run: docker build --file tools/android/Dockerfile --tag node-android-builder:test tools/android
+      - name: Validate the builder entry point
+        run: docker run --rm node-android-builder:test --help

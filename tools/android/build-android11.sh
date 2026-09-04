@@ -1,15 +1,13 @@
-#!/usr/bin/env bash
+#!/bin/sh
 # Build a self-contained Android arm64 Node.js distribution from this checkout.
-set -euo pipefail
+set -eu
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-readonly SCRIPT_DIR
+SCRIPT_DIR=$(CDPATH='' cd -- "$(dirname "$0")" && pwd)
 SOURCE_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
-readonly SOURCE_DIR
-readonly NDK_VERSION="r27d"
-readonly NDK_ARCHIVE="android-ndk-${NDK_VERSION}-linux.zip"
-readonly NDK_SHA1="22105e410cf29afcf163760cc95522b9fb981121"
-readonly NDK_URL="https://dl.google.com/android/repository/${NDK_ARCHIVE}"
+NDK_VERSION="r27d"
+NDK_ARCHIVE="android-ndk-${NDK_VERSION}-linux.zip"
+NDK_SHA1="22105e410cf29afcf163760cc95522b9fb981121"
+NDK_URL="https://dl.google.com/android/repository/${NDK_ARCHIVE}"
 
 ANDROID_API="${ANDROID_API:-30}"
 ANDROID_ARCH="${ANDROID_ARCH:-arm64}"
@@ -28,14 +26,14 @@ for command in curl sha1sum unzip make tar install nproc; do require "$command";
 mkdir -p "$CACHE_DIR"
 ndk_archive="$CACHE_DIR/$NDK_ARCHIVE"
 ndk_dir="$CACHE_DIR/android-ndk-$NDK_VERSION"
-if [[ ! -f "$ndk_archive" ]]; then
+if [ ! -f "$ndk_archive" ]; then
   curl --fail --location --retry 3 --output "$ndk_archive" "$NDK_URL"
 fi
 printf '%s  %s\n' "$NDK_SHA1" "$ndk_archive" | sha1sum --check --status || die "NDK checksum mismatch: $ndk_archive"
-if [[ ! -d "$ndk_dir" ]]; then
+if [ ! -d "$ndk_dir" ]; then
   unzip -q "$ndk_archive" -d "$CACHE_DIR"
 fi
-[[ -x "$ndk_dir/toolchains/llvm/prebuilt/linux-x86_64/bin/clang" ]] || die "unsupported host or incomplete NDK: $ndk_dir"
+[ -x "$ndk_dir/toolchains/llvm/prebuilt/linux-x86_64/bin/clang" ] || die "unsupported host or incomplete NDK: $ndk_dir"
 
 rm -rf "$BUILD_DIR" "$DIST_DIR"
 # Node's configure script always generates the default Make output in
