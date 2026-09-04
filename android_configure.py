@@ -2,7 +2,6 @@ import platform
 import sys
 import os
 import shutil
-import shlex
 import subprocess
 
 # TODO: In next version, it will be a JSON file listing all the patches, and then it will iterate through to apply them.
@@ -87,4 +86,4 @@ if os.path.exists("./configure"):
         "--openssl-no-asm",
         "--cross-compiling",
     ] + configure_options
-    subprocess.run([shlex.join(command)], shell=True, check=True)
+    subprocess.run(command, check=True)

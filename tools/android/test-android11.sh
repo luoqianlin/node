@@ -2,8 +2,10 @@
 # Run focused Android smoke tests using an already-connected adb device.
 set -euo pipefail
 
-readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-readonly SOURCE_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+readonly SCRIPT_DIR
+SOURCE_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
+readonly SOURCE_DIR
 SERIAL="${ANDROID_SERIAL:-SS20240910134291}"
 DIST_DIR="${DIST_DIR:-$SOURCE_DIR/android-build-arm64-api30}"
 REMOTE_DIR="${REMOTE_DIR:-/data/local/tmp/node-android11-smoke}"

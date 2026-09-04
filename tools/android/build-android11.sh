@@ -2,8 +2,10 @@
 # Build a self-contained Android arm64 Node.js distribution from this checkout.
 set -euo pipefail
 
-readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-readonly SOURCE_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+readonly SCRIPT_DIR
+SOURCE_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
+readonly SOURCE_DIR
 readonly NDK_VERSION="r27d"
 readonly NDK_ARCHIVE="android-ndk-${NDK_VERSION}-linux.zip"
 readonly NDK_SHA1="22105e410cf29afcf163760cc95522b9fb981121"
