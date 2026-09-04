@@ -203,7 +203,7 @@
             }],
             ['OS=="android"', {
               'sources': [
-                '<(android_ndk_path)/sources/android/cpufeatures/cpu-features.c',
+                '<(ZLIB_ROOT)/android-cpu-features.c',
               ],
             }],
             # Incorporate optimizations where possible.
